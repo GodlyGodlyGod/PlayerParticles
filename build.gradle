@@ -4,6 +4,7 @@ plugins {
     id 'com.gradleup.shadow' version '8.3.5'
     id 'maven-publish'
     id 'java-library'
+    id 'xyz.jpenilla.run-paper' version '2.3.1'
 }
 
 group = 'dev.esophose'
@@ -90,6 +91,13 @@ javadoc {
     if (JavaVersion.current().isJava9Compatible()) {
         options.addBooleanOption('html5', true)
     }
+}
+
+runServer {
+    // Configure the Minecraft version for our task.
+    // This is the only required configuration besides applying the plugin.
+    // Your plugin's jar (or shadowJar if present) will be used automatically.
+    minecraftVersion("1.21.5")
 }
 
 build.dependsOn shadowJar

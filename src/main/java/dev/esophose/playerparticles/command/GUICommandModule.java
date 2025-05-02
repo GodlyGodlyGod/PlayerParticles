@@ -51,7 +51,12 @@ public class GUICommandModule implements CommandModule {
         }
 
         if (args.length == 0) {
-            guiManager.openDefault(pplayer);
+            // Check if player has permission to open the particles GUI
+            if (!permissionManager.canOpenGui(pplayer, "particles")) {
+                localeManager.sendMessage(pplayer, "gui-no-permission");
+                return;
+            }
+            guiManager.openParticles(pplayer);
             return;
         }
 

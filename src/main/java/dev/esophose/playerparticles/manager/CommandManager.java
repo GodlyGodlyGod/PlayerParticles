@@ -14,6 +14,7 @@ import dev.esophose.playerparticles.command.GUICommandModule;
 import dev.esophose.playerparticles.command.GroupCommandModule;
 import dev.esophose.playerparticles.command.HelpCommandModule;
 import dev.esophose.playerparticles.command.ListCommandModule;
+import dev.esophose.playerparticles.command.MainCommandModule;
 import dev.esophose.playerparticles.command.OtherCommandModule;
 import dev.esophose.playerparticles.command.ReloadCommandModule;
 import dev.esophose.playerparticles.command.RemoveCommandModule;
@@ -82,6 +83,7 @@ public class CommandManager extends Manager implements CommandExecutor, TabCompl
             this.add(new GUICommandModule());
             this.add(new HelpCommandModule());
             this.add(new ListCommandModule());
+            this.add(new MainCommandModule());
             this.add(new ReloadCommandModule());
             this.add(new RemoveCommandModule());
             this.add(new ResetCommandModule());
@@ -220,7 +222,7 @@ public class CommandManager extends Manager implements CommandExecutor, TabCompl
             // Run the /ppo command
             Bukkit.getScheduler().runTask(this.rosePlugin, () -> this.ppoCommand.onCommandExecute(sender, args));
         }
-        
+
         return true;
     }
 
@@ -245,7 +247,7 @@ public class CommandManager extends Manager implements CommandExecutor, TabCompl
 
             if (pplayer == null)
                 return new ArrayList<>();
-            
+
             if (args.length <= 1) {
                 CommandModule commandModule = this.findMatchingCommand(""); // Get the default command module
                 return commandModule.onTabComplete(pplayer, args);
@@ -262,7 +264,7 @@ public class CommandManager extends Manager implements CommandExecutor, TabCompl
         } else if (cmd.getName().equalsIgnoreCase("ppo")) {
             return this.ppoCommand.onTabComplete(sender, args);
         }
-        
+
         return new ArrayList<>();
     }
 }

@@ -11,19 +11,19 @@ public class DefaultCommandModule implements CommandModule {
 
     @Override
     public void onCommandExecute(PPlayer pplayer, String[] args) {
-        // The default command just opens the GUI, execute the GUICommandModule
+        // The default command now opens the particles GUI, execute the GUICommandModule with "particles" argument
         ((GUICommandModule) PlayerParticles.getInstance().getManager(CommandManager.class).findMatchingCommand("gui"))
-                .onCommandExecute(pplayer, new String[0], false);
+                .onCommandExecute(pplayer, new String[]{"particles"}, false);
     }
 
     @Override
     public List<String> onTabComplete(PPlayer pplayer, String[] args) {
         List<String> matches = new ArrayList<>();
         List<String> commandNames = PlayerParticles.getInstance().getManager(CommandManager.class).getCommandNames();
-        
+
         if (args.length == 0)
             return commandNames;
-        
+
         StringUtil.copyPartialMatches(args[0], commandNames, matches);
 
         return matches;

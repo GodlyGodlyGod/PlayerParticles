@@ -23,13 +23,13 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.PluginManager;
 
 public class PermissionManager extends Manager {
-    
+
     private static final String PERMISSION_PREFIX = "playerparticles.";
 
     private enum PPermission {
         EFFECT("effect"),
         STYLE("style"),
-        
+
         FIXED("fixed"),
         FIXED_MAX("fixed.max"),
         FIXED_UNLIMITED("fixed.unlimited"),
@@ -49,13 +49,13 @@ public class PermissionManager extends Manager {
         GROUPS_UNLIMITED("groups.unlimited"),
 
         WORLDGUARD_BYPASS("worldguard.bypass");
-        
+
         private final String permissionString;
-        
+
         PPermission(String permissionString) {
             this.permissionString = permissionString;
         }
-        
+
         /**
          * Checks if a Permissible has a PlayerParticles permission
          * 
@@ -66,7 +66,7 @@ public class PermissionManager extends Manager {
             String permission = PERMISSION_PREFIX + this.permissionString;
             return p.hasPermission(permission);
         }
-        
+
         /**
          * Checks if a Permissible has a PlayerParticles permission with a sub-permission
          * 
@@ -84,7 +84,7 @@ public class PermissionManager extends Manager {
             return PERMISSION_PREFIX + this.permissionString;
         }
     }
-    
+
     public PermissionManager(RosePlugin playerParticles) {
         super(playerParticles);
 
@@ -132,6 +132,8 @@ public class PermissionManager extends Manager {
                 pluginManager.addPermission(new Permission("playerparticles.override"));
                 pluginManager.addPermission(new Permission("playerparticles.reset.others"));
                 pluginManager.addPermission(new Permission("playerparticles.gui"));
+                pluginManager.addPermission(new Permission("playerparticles.gui.main"));
+                pluginManager.addPermission(new Permission("playerparticles.gui.particles"));
 
                 pluginManager.addPermission(new Permission("playerparticles.particles.max"));
                 pluginManager.addPermission(new Permission("playerparticles.particles.unlimited"));
@@ -193,7 +195,7 @@ public class PermissionManager extends Manager {
 
         return pplayer.getActiveParticles().size() >= this.getPermissionAmount(pplayer.getUnderlyingExecutor(), PPermission.PARTICLES_MAX, Setting.MAX_PARTICLES.getInt());
     }
-    
+
     /**
      * Checks if the given player has reached the max number of saved particle groups
      * 
@@ -210,7 +212,7 @@ public class PermissionManager extends Manager {
 
         return executor.getParticleGroups().size() - 1 >= this.getPermissionAmount(pplayer.getUnderlyingExecutor(), PPermission.GROUPS_MAX, Setting.MAX_GROUPS.getInt());
     }
-    
+
     /**
      * Checks if the given player is able to save groups
      * 
@@ -223,7 +225,7 @@ public class PermissionManager extends Manager {
 
         return this.getPermissionAmount(pplayer.getUnderlyingExecutor(), PPermission.GROUPS_MAX, Setting.MAX_GROUPS.getInt()) != 0;
     }
-    
+
     /**
      * Checks if the given player has reached the max number of fixed effects
      * 
@@ -249,7 +251,7 @@ public class PermissionManager extends Manager {
     public int getMaxFixedEffectCreationDistance() {
         return Setting.MAX_FIXED_EFFECT_CREATION_DISTANCE.getInt();
     }
-    
+
     /**
      * Gets the maximum number of particles a player is allowed to use
      * 
@@ -332,7 +334,7 @@ public class PermissionManager extends Manager {
                 list.add(pe.getName());
         return list;
     }
-    
+
     /**
      * Gets a String List of all style names a player has permission for
      * 
@@ -360,7 +362,7 @@ public class PermissionManager extends Manager {
                 list.add(ps.getName());
         return list;
     }
-    
+
     /**
      * Gets a List of all effects a player has permission for
      * 
@@ -398,7 +400,7 @@ public class PermissionManager extends Manager {
     public boolean canUseFixedEffects(PPlayer player) {
         return PPermission.FIXED.check(player.getUnderlyingExecutor());
     }
-    
+
     /**
      * Checks if a player has permission to clear fixed effects
      * 
@@ -439,7 +441,7 @@ public class PermissionManager extends Manager {
     public boolean canOpenGui(PPlayer player, String gui) {
         return !Setting.GUI_REQUIRE_PERMISSION.getBoolean() || PPermission.GUI.check(player.getUnderlyingExecutor(), gui);
     }
-    
+
     /**
      * Checks if a player has permission to use /pp reload
      * 
